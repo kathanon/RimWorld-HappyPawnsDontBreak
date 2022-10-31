@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <RimWorld>G:\Steam\steamapps\common\RimWorld</RimWorld>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <ProjectGuid>{78C0CD7B-2BC5-477F-B346-58C0BEF73AC9}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\ModFiles\**">
+      <Link>ModFiles\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </None>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>rmdir /s /q "$(RimWorld)\Mods\$(TargetName)"
+mkdir "$(RimWorld)\Mods\$(TargetName)"
+mkdir "$(RimWorld)\Mods\$(TargetName)\Assemblies"
+copy "$(TargetPath)" "$(RimWorld)\Mods\$(TargetName)\Assemblies"
+xcopy /s "$(SolutionDir)ModFiles\*" "$(RimWorld)\Mods\$(TargetName)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartAction>Program</StartAction>
+    <StartProgram>$(RimWorld)\RimWorldWin64.exe</StartProgram>
+  </PropertyGroup>
+</Project>
